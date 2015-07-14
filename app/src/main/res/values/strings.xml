@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CloverFly</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_sign_up_page">SignUpPage</string>
+    <string name="facebook_app_id">474584152708405</string>
+    <string name="title_activity_retry_connection">RetryConnection</string>
+</resources>
