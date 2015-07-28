@@ -1,51 +1,66 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+
     tools:context="com.cloverfly.cloverfly.cloverfly.RetryConnection"
-    android:background="#71e0ff97">
+    android:background="@drawable/bg_crystal">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Oops ,Something Went Wrong!"
+        android:text="Oops , Something Went Wrong!"
         android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
+        android:textColor="#ffffff"
+        android:gravity="fill_horizontal|left|center"
+        android:layout_below="@+id/imageView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="77dp" />
+        android:layout_marginTop="24dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="UmeetGo requires an internet connection to keep you in the trend with the latest events . Please  retry connecting to your internet"
+        android:text="UmeetGo requires an internet connection to let you find and join events. Please reconnect and try again."
         android:id="@+id/textView3"
-        android:layout_marginTop="47dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:textColor="#ffffff"
+        android:gravity="fill_horizontal|center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
         android:text="Retry"
         android:id="@+id/Retrybutton"
-        android:layout_marginTop="40dp"
+        android:textColor="#FFFFFF"
+        android:background="#ef9013"
+        android:gravity="center"
         android:layout_below="@+id/textView3"
         android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:layout_alignStart="@+id/textView3"
+        android:layout_marginTop="47dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
         android:text="Exit"
         android:id="@+id/Exitbutton"
-        android:layout_alignBottom="@+id/Retrybutton"
+        android:textColor="#FFFFFF"
+        android:background="#ef9013"
+        android:gravity="center"
+        android:layout_alignTop="@+id/Retrybutton"
         android:layout_alignRight="@+id/textView3"
         android:layout_alignEnd="@+id/textView3" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:id="@+id/imageView3"
+        android:src="@drawable/logo_20150717"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp" />
 </RelativeLayout>

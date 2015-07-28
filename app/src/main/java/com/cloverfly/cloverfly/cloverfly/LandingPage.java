@@ -20,21 +20,34 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class LandingPage extends ActionBarActivity {
 
-
+    String uid ;
+    String name;
+    String fbmail ;
 
     // Shared Prefrence of the entire App
     private SharedPreferences autologin;
@@ -64,12 +77,55 @@ public class LandingPage extends ActionBarActivity {
 
         fblogin.setReadPermissions("public_profile");
         fblogin.setReadPermissions("email");
-        fblogin.setReadPermissions("user_likes");
+        //fblogin.setReadPermissions("user_likes");
         fblogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
+                AccessToken user =  loginResult.getAccessToken();
+                Profile.getCurrentProfile();
+
 
                 Log.e("No such an algorithm", "login worked");
+                GraphRequest request = GraphRequest.newMeRequest(
+                        user,
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                               try {
+                                  uid = object.getString("id");
+                                   name= object.getString("name");
+                                  fbmail = object.getString("email");
+                                   Log.e("e1",object.getString("id"));
+                                   Log.e("e1",object.getString("name"));
+                                   Log.e("e1",object.getString("email"));
+                                   // Set auto login to true
+                                   SharedPreferences.Editor editor = autologin.edit();
+                                   editor.putBoolean("correct",false);
+
+                                   editor.commit();
+                                   Context context = getApplicationContext();
+                                   int duration = Toast.LENGTH_SHORT;
+                                   Toast toast = Toast.makeText(context,"Succesfully Logged in ",duration);
+                                   toast.show();
+
+                               }catch (JSONException e){
+                                   System.out.println("error");
+                                   Log.e("Error","error");
+                               }
+
+                                // Application code
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link,email");
+                request.setParameters(parameters);
+                request.executeAsync();
+                Intent intent = new Intent(LandingPage.this, SignUpPage.class);
+                LandingPage.this.startActivity(intent);
+
 
             }
 
@@ -123,9 +179,54 @@ public class LandingPage extends ActionBarActivity {
                if(checkFields() && checkConnection()){
 
                    //Handle API CALL
-                   // For now demo auto login
+
+
+                   ArrayList<NameValuePair>  params = new ArrayList<NameValuePair>();
+                   String Pass = password.getText().toString();
+                   String user = email.getText().toString();
+                   params.add(new BasicNameValuePair("email",user));
+                   params.add(new BasicNameValuePair("password",Pass));
+                   NodeConnect nc = new NodeConnect();
+                   //mongodb://<app>:<AndroidiOS>@ds047592.mongolab.com:47592/umeetgo
+                   JSONObject json = nc.getJSON("http://255.255.255.255/login",params);
                    Context context = getApplicationContext();
                    int duration = Toast.LENGTH_SHORT;
+                   Intent intent = new Intent(LandingPage.this, MainMenu.class);
+                   LandingPage.this.startActivity(intent); // Launch main Menu profile page//
+                   if(json != null){
+                       try {
+                           // Check if scucess, if so login user//
+                           if (json.getBoolean("correct")) {
+
+
+                               SharedPreferences.Editor editor = autologin.edit();
+                               editor.putBoolean("correct",false);
+
+                               editor.commit();
+
+                               Toast toast = Toast.makeText(context,"Succesfully Logged in ",duration);
+                               toast.show();
+
+
+
+                           }
+                               Toast toast2 = Toast.makeText(context,"Failed Login",duration);
+
+                       }catch (JSONException e){
+                           System.out.println("error");
+                           Toast toast2 = Toast.makeText(context,"Failed Login",duration);
+                       }
+
+                   }
+                   // For now demo auto login
+
+                   /*SharedPreferences.Editor editor = autologin.edit();
+                   editor.putBoolean("correct",true);
+
+                   editor.commit();
+
+                   Toast toast = Toast.makeText(context,"Succesfully Logged in ",duration);
+                   toast.show();*/
                    SharedPreferences.Editor editor = autologin.edit();
                    editor.putBoolean("correct",true);
 
@@ -133,14 +234,9 @@ public class LandingPage extends ActionBarActivity {
 
                    Toast toast = Toast.makeText(context,"Succesfully Logged in ",duration);
                    toast.show();
-               }else{
-                   // Inflate Password recovery option
-                   Recovery.isClickable();
-                   Recovery.setVisibility(View.VISIBLE);
 
                }
-           }
-       }) ;
+       }}) ;
     }
 
     // Some how handles the login data ???
@@ -155,6 +251,7 @@ public class LandingPage extends ActionBarActivity {
        // LoginButton.callOnClick();
 
         // complete auto login//
+        Log.e("check","checking autologin");
        // Boolean loggedin = getSharedPreferences("autologin",MODE_PRIVATE).getBoolean("correct",false);
         if(getSharedPreferences("autologin",MODE_PRIVATE).getBoolean("correct",false)){
 
@@ -280,6 +377,10 @@ public class LandingPage extends ActionBarActivity {
 
 
     }
+
+
+
+
 
 
 }

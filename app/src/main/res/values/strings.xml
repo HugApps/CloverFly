@@ -1,9 +1,59 @@
 <resources>
-    <string name="app_name">CloverFly</string>
+    <string name="app_name">uMeetGo</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_sign_up_page">SignUpPage</string>
+    <string name="title_activity_sign_up_page">Registration</string>
     <string name="facebook_app_id">474584152708405</string>
-    <string name="title_activity_retry_connection">RetryConnection</string>
+    <string name="title_activity_retry_connection">Error</string>
+    <string name="title_activity_main_menu">uMeetGo</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name ="occupation_list">
+        <item> Student</item>
+        <item> Law Enforcement</item>
+        <item> Health Care</item>
+        <item> Retail</item>
+        <item> Buisness and Management</item>
+        <item> Atheletics </item>
+        <item> IT and Technology</item>
+        <item> Medical</item>
+
+    </string-array>
+    <string-array name ="Interest_list">
+    <item> Board Games</item>
+    <item> Console Gaming</item>
+    <item> PC Gaming</item>
+    <item> Movies </item>
+    <item> Basketball</item>
+
+
+
+</string-array>
+
+    <string-array name ="Languages">
+        <item> English</item>
+        <item> Japanese</item>
+        <item> French</item>
+        <item> Spanish </item>
+        <item> Chinese</item>
+
+
+
+    </string-array>
+
+    <string-array name ="Location">
+        <item> Vancouver</item>
+        <item> Victoria</item>
+        <item> Surrey</item>
+        <item> Burnaby</item>
+        <item> Richmond</item>
+        <item> North Van</item>
+        <item> Coquitlam</item>
+        <item> Delta</item>
+
+
+
+    </string-array>
 </resources>
