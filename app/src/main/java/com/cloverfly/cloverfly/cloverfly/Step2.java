@@ -1,6 +1,7 @@
 package com.cloverfly.cloverfly.cloverfly;
 
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import android.widget.TextView;
  */
 public class Step2 extends Fragment {
 
-    Spinner Occupation,Languages,Location;
+    TextView Occupation,Languages,Location;
 
     EditText Description,Phone;
 
@@ -29,25 +30,67 @@ public class Step2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View v = inflater.inflate(R.layout.step2, container, false);
-       Occupation = (Spinner) v.findViewById(R.id.OccupationSpinner);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(),
-                R.array.occupation_list, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(),
-                R.array.Languages, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(getActivity(),
-                R.array.Location, android.R.layout.simple_spinner_item);
+       Occupation = (TextView) v.findViewById(R.id.OccupationPop);
+       Languages = (TextView) v.findViewById(R.id.LanguagePop);
+       Location = (TextView) v.findViewById(R.id.LocationPop);
 
-       adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create string array using predefind location, pass to fragment
+                String[]list= getResources().getStringArray(R.array.Location);
+                Bundle bundle = new Bundle();
+                bundle.putStringArray("location",list);
+                bundle.putString("type","location");
+                // Load popup fragment that displays list
+                Fragment Locationpop = new ListPopup();
+                Locationpop.setArguments(bundle);
+                FragmentManager man = getFragmentManager();
 
 
-       Languages = (Spinner)v.findViewById(R.id.LanguageSpinner);
-       Location = (Spinner)v.findViewById(R.id.LocationSpinner);
-        Occupation.setAdapter(adapter1);
-        Languages.setAdapter(adapter2);
-        Location.setAdapter(adapter3);
+                man.beginTransaction().replace(R.id.popup,Locationpop).addToBackStack("popup").commit();
 
+
+            }
+        });
+
+       Occupation.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String[] list = getResources().getStringArray(R.array.occupation_list);
+               Bundle bundle = new Bundle();
+               bundle.putStringArray("occupation",list);
+               bundle.putString("type","occupation");
+               // Load popup fragment that displays list
+               Fragment Locationpop = new ListPopup();
+               Locationpop.setArguments(bundle);
+               FragmentManager man = getFragmentManager();
+
+
+               man.beginTransaction().replace(R.id.popup,Locationpop).addToBackStack("popup").commit();
+
+
+           }
+       });
+
+       Languages.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String[] list = getResources().getStringArray(R.array.Languages);
+               Bundle bundle = new Bundle();
+               bundle.putStringArray("language",list);
+               bundle.putString("type","language");
+               // Load popup fragment that displays list
+               Fragment Locationpop = new ListPopup();
+               Locationpop.setArguments(bundle);
+               FragmentManager man = getFragmentManager();
+
+
+               man.beginTransaction().replace(R.id.popup,Locationpop).addToBackStack("popup").commit();
+
+
+           }
+       });
         return v;
 
     }
