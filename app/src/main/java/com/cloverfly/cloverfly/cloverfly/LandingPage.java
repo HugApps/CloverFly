@@ -186,17 +186,23 @@ public class LandingPage extends ActionBarActivity {
                    String user = email.getText().toString();
                    params.add(new BasicNameValuePair("email",user));
                    params.add(new BasicNameValuePair("password",Pass));
+                   params.add(new BasicNameValuePair("isApp","true"));
                    NodeConnect nc = new NodeConnect();
                    //mongodb://<app>:<AndroidiOS>@ds047592.mongolab.com:47592/umeetgo
-                   JSONObject json = nc.getJSON("http://255.255.255.255/login",params);
+                   JSONObject json = nc.getJSON("http://umeetgo.com/login",params);
                    Context context = getApplicationContext();
                    int duration = Toast.LENGTH_SHORT;
-                   Intent intent = new Intent(LandingPage.this, MainMenu.class);
-                   LandingPage.this.startActivity(intent); // Launch main Menu profile page//
+                  // Launch main Menu profile page//
                    if(json != null){
+                       System.out.println("HAHAHAHAHA");
+                       System.out.println(json.toString());
+
+
                        try {
                            // Check if scucess, if so login user//
-                           if (json.getBoolean("correct")) {
+                           System.out.println(user);
+                           System.out.println(json.getString("user"));
+                           if (json.getString("user") == user) {
 
 
                                SharedPreferences.Editor editor = autologin.edit();
@@ -206,15 +212,15 @@ public class LandingPage extends ActionBarActivity {
 
                                Toast toast = Toast.makeText(context,"Succesfully Logged in ",duration);
                                toast.show();
-
-
+                               Intent intent = new Intent(LandingPage.this, MainMenu.class);
+                               LandingPage.this.startActivity(intent);
 
                            }
                                Toast toast2 = Toast.makeText(context,"Failed Login",duration);
 
                        }catch (JSONException e){
-                           System.out.println("error");
-                           Toast toast2 = Toast.makeText(context,"Failed Login",duration);
+                           System.out.println("PENIS");
+                           //Toast toast2 = Toast.makeText(context,"Failed Login",duration);
                        }
 
                    }
@@ -227,13 +233,7 @@ public class LandingPage extends ActionBarActivity {
 
                    Toast toast = Toast.makeText(context,"Succesfully Logged in ",duration);
                    toast.show();*/
-                   SharedPreferences.Editor editor = autologin.edit();
-                   editor.putBoolean("correct",true);
 
-                   editor.commit();
-
-                   Toast toast = Toast.makeText(context,"Succesfully Logged in ",duration);
-                   toast.show();
 
                }
        }}) ;
@@ -262,41 +262,10 @@ public class LandingPage extends ActionBarActivity {
             editor.commit();
         }
     }
-    public static String printKeyHash(Activity context) {
-        PackageInfo packageInfo;
-        String key = null;
-        try {
-            //getting application package name, as defined in manifest
-            String packageName = context.getApplicationContext().getPackageName();
 
-            //Retriving package info
-            packageInfo = context.getPackageManager().getPackageInfo(packageName,
-                    PackageManager.GET_SIGNATURES);
-
-            Log.e("Package Name=", context.getApplicationContext().getPackageName());
-
-            for (Signature signature : packageInfo.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                key = new String(Base64.encode(md.digest(), 0));
-
-
-                Log.e("Key Hash=", key);
-            }
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.e("Name not found", e1.toString());
-        }
-        catch (NoSuchAlgorithmException e) {
-            Log.e("No such an algorithm", e.toString());
-        } catch (Exception e) {
-            Log.e("Exception", e.toString());
-        }
-
-        return key;
-    }
     private boolean checkFields (){
       String message;
-       printKeyHash(this);
+
       Context context = getApplicationContext();
       int duration = Toast.LENGTH_SHORT;
       if(email.getText().length()<=0 || password.getText().length() <MINLENGTH){

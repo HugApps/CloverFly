@@ -22,7 +22,7 @@
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:id="@+id/phonel"
-        android:inputType="none"
+        android:inputType="phone"
         android:textColor="#6aacb4"
 
         android:background="#026d72"
@@ -40,90 +40,73 @@
         android:layout_marginBottom="10dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Occupation"
-        android:id="@+id/textView6"
-        android:textColor="#FFFFFF"
-        android:layout_below="@+id/phonel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Languages"
-        android:id="@+id/textView8"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/OccupationPop"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Step 3 ->"
-        android:id="@+id/textView9"
+        android:id="@+id/Step3button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textColor="#FFFFFF"
         android:background="#ef9013"
-        android:gravity="center" />
+        android:gravity="center"
+        android:clickable="true" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Spoken Languages"
+        android:id="@+id/LanguagePop"
+        android:background="#026d72"
+        android:clickable="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Occupation"
+        android:id="@+id/OccupationPop"
+        android:background="#026d72"
+        android:clickable="true"
+        android:layout_above="@+id/LanguagePop"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="53dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Location"
-        android:id="@+id/textView10"
-        android:textColor="#FFFFFF"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Select your Languages"
-        android:id="@+id/LanguagePop"
-        android:background="#6c3298"
-        android:layout_below="@+id/textView8"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:clickable="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Where do you work?"
-        android:id="@+id/OccupationPop"
-        android:layout_below="@+id/textView6"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#6c3298"
-        android:clickable="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Area you live"
         android:id="@+id/LocationPop"
-        android:layout_below="@+id/textView10"
+        android:background="#026d72"
+        android:clickable="true"
+        android:layout_above="@+id/Step3button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#6c3298"
-        android:clickable="true" />
+        android:layout_marginBottom="103dp"
+        android:layout_alignRight="@+id/LanguagePop"
+        android:layout_alignEnd="@+id/LanguagePop"
+        android:textColor="#FFFFFF" />
 
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/popup"></FrameLayout>
+        android:id="@+id/popup"
+        android:layout_alignRight="@+id/LanguagePop"
+        android:layout_alignEnd="@+id/LanguagePop">
+
+
+    </FrameLayout>
 
 </RelativeLayout>

@@ -44,6 +44,19 @@
     </string-array>
 
     <string-array name ="Location">
+    <item> Vancouver</item>
+    <item> Victoria</item>
+    <item> Surrey</item>
+    <item> Burnaby</item>
+    <item> Richmond</item>
+    <item> North Van</item>
+    <item> Coquitlam</item>
+    <item> Delta</item>
+
+
+
+</string-array>
+    <string-array name ="interest">
         <item> Vancouver</item>
         <item> Victoria</item>
         <item> Surrey</item>

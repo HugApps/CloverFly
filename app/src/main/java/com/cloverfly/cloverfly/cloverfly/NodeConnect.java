@@ -13,7 +13,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +38,11 @@ public class NodeConnect {
 
     }
 
+    public NodeConnect(JSONObject j){
+        jObj = j ;
+    }
+
+
     public JSONObject getJSONFromUrl(String url, List<NameValuePair> params) {
 
 
@@ -43,6 +51,7 @@ public class NodeConnect {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(new UrlEncodedFormEntity(params));
+
 
             HttpResponse httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
@@ -62,11 +71,12 @@ public class NodeConnect {
             StringBuilder sb = new StringBuilder();
             String line = null;
             while ((line = reader.readLine()) != null) {
-                sb.append(line + "n");
+                sb.append(line);
             }
             is.close();
             json = sb.toString();
-            Log.e("JSON", json);
+           // System.out.println(json);
+            //Log.e("JSON", json);
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
@@ -82,12 +92,75 @@ public class NodeConnect {
         return jObj;
 
     }
+
+
+
+
+    public boolean PassJson (String url ,JSONObject jsonobj) {
+        try {
+            DefaultHttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppostreq = new HttpPost(url);
+            StringEntity se = new StringEntity(jsonobj.toString());
+            se.setContentType("application/json;charset=UTF-8");
+            se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));
+            httppostreq.setEntity(se);
+            HttpResponse httpresponse = httpclient.execute(httppostreq);
+            System.out.println(httpresponse.toString());
+            return true;
+        } catch( Exception E){E.printStackTrace();return false;}
+
+
+    }
+
+
+    public JSONObject getJSON(String url, JSONObject obj) {
+
+
+        synctask myTask = new synctask();
+        try{
+
+            jobj= myTask.execute(obj);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        return jobj;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     JSONObject jobj;
     public JSONObject getJSON(String url, List<NameValuePair> params) {
 
         Params param = new Params(url,params);
         Request myTask = new Request();
         try{
+
             jobj= myTask.execute(param).get();
         }catch (InterruptedException e) {
             e.printStackTrace();
@@ -96,6 +169,9 @@ public class NodeConnect {
         }
         return jobj;
     }
+
+
+
 
 
     private static class Params {
@@ -127,6 +203,29 @@ public class NodeConnect {
             super.onPostExecute(json);
 
         }
+
+    }
+
+
+
+
+
+   private class synctask extends AsyncTask<JSONObject, String, JSONObject>{
+
+       @Override
+       protected JSONObject doInBackground(JSONObject... args) {
+
+           NodeConnect request = new NodeConnect();
+
+
+           return json;
+       }
+       @Override
+       protected void onPostExecute(JSONObject json) {
+
+           super.onPostExecute(json);
+
+       }
 
     }
 

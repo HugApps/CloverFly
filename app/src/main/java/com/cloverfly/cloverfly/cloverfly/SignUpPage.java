@@ -26,9 +26,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SignUpPage extends ActionBarActivity {
+public class SignUpPage extends ActionBarActivity implements ListPopup.getSelectedValues  {
     EditText email,pass,user,dob,pass2,fname,lname;
     Switch gender;
+    SharedPreferences userprofile;
+    // Can use this array as json object later on
     ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
     TextView submit;
     CheckBox yes,no;
@@ -40,6 +42,7 @@ public class SignUpPage extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_sign_up_page);
+        userprofile = getSharedPreferences("profile",MODE_PRIVATE);
         step2 = new Step2();
         Frag = (RelativeLayout)findViewById(R.id.stepfragments);
         email = (EditText)findViewById(R.id.newemail);
@@ -83,39 +86,64 @@ public class SignUpPage extends ActionBarActivity {
                 Context context = getApplicationContext();
                 int duration = Toast.LENGTH_SHORT;
                 if (checkFields()) {
-                    // JSON of signup credentials
-                   // ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-
+                    NodeConnect nc = new NodeConnect();
+                    SharedPreferences.Editor editor = userprofile.edit();
 
 
                     params.add(new BasicNameValuePair("email", email.getText().toString()));
                     params.add(new BasicNameValuePair("password", pass.getText().toString()));
-                    params.add(new BasicNameValuePair("fname", fname.getText().toString()));
-                    params.add(new BasicNameValuePair("lname", lname.getText().toString()));
-                    params.add(new BasicNameValuePair("dob", dob.getText().toString()));
-                    params.add(new BasicNameValuePair("gender", gender.getText().toString()));
+                  //  params.add(new BasicNameValuePair("fname", fname.getText().toString()));
+                   // params.add(new BasicNameValuePair("lname", lname.getText().toString()));
+                  //  params.add(new BasicNameValuePair("dob", dob.getText().toString()));
+                   // params.add(new BasicNameValuePair("gender", gender.getText().toString()));
 
 
+                    JSONObject json = nc.getJSON("http://umeetgo.com/signup", params);
+                    if (json != null) {
+                        try {
+                            // Check if scucess, if so login user//
+                            if (json.getString("message") == "Success") {
+
+                                FragmentManager man = getFragmentManager();
+                                Fragment frag = step2;
+
+                                Toast toast = Toast.makeText(context, "Succesfully registered ", duration);
+                                toast.show();
+
+
+                                man.beginTransaction().replace(R.id.stepfragments, frag).addToBackStack("step2").commit();
+
+                                return;
+                                // Launch main Menu profile page//
+
+
+                            } else {
+                                String message = "Error, try again";
+
+                                Toast toast = Toast.makeText(context, message, duration);
+                                toast.show();
+                            }
+
+                        } catch (JSONException e) {
+                            System.out.println(e);
+
+                        }
+
+                        // JSON of signup credentials
+                        // ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
 
                         // Once successfully submitted , move to step 2
-                        FragmentManager man = getFragmentManager();
-                        Fragment frag =step2;
-
-                        man.beginTransaction().replace(R.id.stepfragments,frag).addToBackStack("step2").commit();
-
-                        return;
 
 
                     }
-                FragmentManager man = getFragmentManager();
-                Fragment frag =step2;
 
-                man.beginTransaction().replace(R.id.stepfragments,frag).addToBackStack("step2").commit();
-
+                    FragmentManager man = getFragmentManager();
+                    Fragment frag = step2;
+                    man.beginTransaction().replace(R.id.stepfragments, frag).addToBackStack("step2").commit();
                 }
 
-
+            }
 
 
 
@@ -127,7 +155,7 @@ public class SignUpPage extends ActionBarActivity {
         String message = "";
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
-        if ( email.getText().length() <= 0 || pass.getText().length() <MINLENGTH || user.getText().length() <=0 || dob.getText().length() <=0 ||fname.getText().length()<=0 ||lname.getText().length()<=0 ){
+      /*  if ( email.getText().length() <= 0 || pass.getText().length() <MINLENGTH || user.getText().length() <=0 || dob.getText().length() <=0 ||fname.getText().length()<=0 ||lname.getText().length()<=0 ){
             message="Please fill in all required fields";
             Toast toast = Toast.makeText(context,message,duration);
             toast.show();
@@ -139,7 +167,7 @@ public class SignUpPage extends ActionBarActivity {
             toast.show();
             return false;
 
-        }
+        }*/
 
         return true;
     }
@@ -193,6 +221,19 @@ public class SignUpPage extends ActionBarActivity {
 
 
     }
+
+
+
+
+
+    public void getSelectedValues(String[] values,String type){
+       Step2 f = (Step2)getFragmentManager().findFragmentById(R.id.stepfragments);
+       //System.out.println(type);
+
+       //Step2 step2 =(Step2) getFragmentManager().findFragmentByTag("step2");
+       step2.json =step2.BuildJsonArray(values,type);
+    }
+
 }
 /*
    NodeConnect nc = new NodeConnect();
